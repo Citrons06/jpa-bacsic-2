@@ -6,14 +6,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Item {
+public class Team {
 
     @Id @GeneratedValue
-    @Column(name = "ITEM_ID")
+    @Column(name = "TEAM_ID")
     private Long id;
+
     private String name;
-    private int price;
-    private int stockQuantity;
 
     public Long getId() {
         return id;
@@ -31,19 +30,5 @@ public class Item {
         this.name = name;
     }
 
-    public int getPrice() {
-        return price;
-    }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getStockQuantity() {
-        return stockQuantity;
-    }
-
-    public void setStockQuantity(int stockQuantity) {
-        this.stockQuantity = stockQuantity;
-    }
 }
