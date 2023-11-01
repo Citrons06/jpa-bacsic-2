@@ -1,7 +1,5 @@
 package jpabook.jpashop.domain;
 
-import jpabook.jpashop.domain.Member;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -17,24 +15,16 @@ public class JpaMain {
         tx.begin();  //트랜잭션 시작
 
         try {
-            Team team = new Team();
-            team.setName("team");
-            //team.getMembers().add(member);
-            em.persist(team);
-
             Member member = new Member();
-            member.setUsername("member");
-            member.setTeam(team);
+            member.setName("member");
+
             em.persist(member);
 
-            em.flush();
-            em.clear();
+            Team team = new Team();
+            team.setName("team");
+            team.getMembers().add(member);
 
-            Team findTeam = em.find(Team.class, team.getMembers());
-            List<Member> members = findTeam.getMembers();
-            for (Member m : members) {
-                System.out.println("m.getUsername() = " + m.getUsername());
-            }
+            em.persist(team);
 
             tx.commit();
         } catch (Exception e) {

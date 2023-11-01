@@ -1,21 +1,18 @@
 package jpabook.jpashop.domain;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-public class Team {
+public class Item {
 
     @Id @GeneratedValue
-    @Column(name = "TEAM_ID")
+    @Column(name = "ITEM_ID")
     private Long id;
 
     private String name;
+    private int price;
+    private int stockQuantity;
 
-    @OneToMany
-    @JoinColumn(name = "TEAM_ID")
-    private List<Member> members = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -33,11 +30,19 @@ public class Team {
         this.name = name;
     }
 
-    public List<Member> getMembers() {
-        return members;
+    public int getPrice() {
+        return price;
     }
 
-    public void setMembers(List<Member> members) {
-        this.members = members;
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 }
