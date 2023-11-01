@@ -18,7 +18,7 @@ public class Team {
 
     public void addMember(Member member) {
         member.setTeam(this);
-        members.add(member);
+        members.add(member);asdffsda
     }
 
     public Long getId() {
