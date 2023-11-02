@@ -5,21 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Member {
+public class Member extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")
     private Long id;
-
-    //다대일 양방향
-    @ManyToOne
-    @JoinColumn(name = "TEAM_ID",insertable = false, updatable = false)
-    private Team team;
-
-    //일대일
-    @OneToOne
-    @JoinColumn(name = "LOCKER_ID")
-    private Locker locker;
 
     private String name;
     private String city;
@@ -28,6 +18,11 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
+
 
     public Long getId() {
         return id;
@@ -75,5 +70,13 @@ public class Member {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
