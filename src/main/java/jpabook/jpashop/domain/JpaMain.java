@@ -3,8 +3,12 @@ package jpabook.jpashop.domain;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.metamodel.Metamodel;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -15,27 +19,34 @@ public class JpaMain {
         tx.begin();  //트랜잭션 시작
 
         try {
-
             Member member = new Member();
-            member.setName("JPA1");
+            member.setName("user");
+            member.setHomeAddress(new Address("city", "street", "zipcode"));
 
-            
+            member.getFoods().add("마라엽떡");
+            member.getFoods().add("치킨");
+            member.getFoods().add("샤브샤브");
+
+            member.getAddressHistory().add(new AddressEntity("old1", "street1", "zipcode1"));
+            member.getAddressHistory().add(new AddressEntity("old2", "street2", "zipcode2"));
 
             em.persist(member);
-
+            
             em.flush();
             em.clear();
 
-            Member referenceMember = em.getReference(Member.class, member.getId());
-            System.out.println("referenceMember = " + referenceMember.getClass());  //Proxy
+            System.out.println("=========== START ===========");
+            Member findMember = em.find(Member.class, member.getId());
 
-            referenceMember.getName();
+            //findMember.getHomeAddress().setCity("newCity"); //X
+            Address old = findMember.getHomeAddress();
+            findMember.setHomeAddress(new Address("newCity", old.getStreet(), old.getZipcode()));
 
-            Hibernate.initialize(referenceMember);  //강제 초기화
+            findMember.getFoods().remove("치킨");
+            findMember.getFoods().add("한식");
 
-
-
-            referenceMember.getName();
+            findMember.getAddressHistory().remove(new AddressEntity("old1", "street1", "zipcode1"));
+            findMember.getAddressHistory().add(new AddressEntity("new1", "street1", "zipcode1"));
 
             tx.commit();
         } catch (Exception e) {

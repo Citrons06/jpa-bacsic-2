@@ -1,19 +1,18 @@
 package jpabook.jpashop.domain;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-public class Team extends BaseEntity {
-
+public class Child {
+    
     @Id @GeneratedValue
-    @Column(name = "TEAM_ID")
     private Long id;
-
+    
     private String name;
-
-    @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
-    private List<Member> member;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PARENT_ID")
+    private Parent parent;
 
     public Long getId() {
         return id;
@@ -31,13 +30,6 @@ public class Team extends BaseEntity {
         this.name = name;
     }
 
-    public List<Member> getMember() {
-        return member;
+    public void setParent(Parent parent) {
     }
-
-    public void setMember(List<Member> member) {
-        this.member = member;
-    }
-
-
 }

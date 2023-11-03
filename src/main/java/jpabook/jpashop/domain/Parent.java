@@ -1,19 +1,24 @@
 package jpabook.jpashop.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Team extends BaseEntity {
+public class Parent {
 
     @Id @GeneratedValue
-    @Column(name = "TEAM_ID")
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
-    private List<Member> member;
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Child> childList = new ArrayList<>();
+
+    public void addChild(Child child) {
+        childList.add(child);
+        child.setParent(this);
+    }
 
     public Long getId() {
         return id;
@@ -31,13 +36,7 @@ public class Team extends BaseEntity {
         this.name = name;
     }
 
-    public List<Member> getMember() {
-        return member;
+    public List<Child> getChildList() {
+        return childList;
     }
-
-    public void setMember(List<Member> member) {
-        this.member = member;
-    }
-
-
 }
